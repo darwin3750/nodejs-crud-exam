@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const con = require("./config/database.js");
+const mysql = require("./config/database.js").con;
 
 var app = express();
 
@@ -13,7 +13,7 @@ app.set('view engine', 'ejs');
 
 // middleware for connecting to the DB and then passing the DB instance to the routes
 app.use(function(req, res, next) {
-  req.con = con
+  req.mysql = mysql
   next()
 });
 
@@ -40,7 +40,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {msg: err.message});
 });
 
 module.exports = app;

@@ -5,15 +5,113 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <script>
+    function sendRequest(method, data){
+      let xhr = new XMLHttpRequest();
+      let url = '/api/' + (method != "POST" ? data.id : "");
+      xhr.open(method, url);
+
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          document.querySelector("#output").textContent = xhr.response;
+          console.log(xhr.response);
+        }
+      }
+      xhr.send(JSON.stringify(data));
+    }
+  </script>
   <title><%= title %> | CRUD Exam</title>
 </head>
 <body class="bg-dark text-light">
   <section class="container">
     <heading>
-      <h3 class="text-center display-4">NodeJS CRUD Exam -- Inventory</h3>
+      <h1 class="text-center display-4">NodeJS CRUD Exam -- Inventory</h1>
       <hr class="p-1 bg-light rounded"/>
     </heading>
-    <article>
+    <article class="row">
+      <section class="col-md-12 p-3">
+        <div class="border border-light p-3">
+          <h3>Output:</h3>
+          <pre id="output" class="text-light"></pre>
+        </div>
+      </section>
+
+      <section class="p-3 col-md-6">
+        <div class="border border-light p-3">
+          <h3>GET</h3>
+          <!-- id -->
+          <label for="get_item_id">Search for an item:</label>
+          <input id="get_item_id" type="number" placeholder="Item ID" class="form-control"/>
+          <!-- send button -->
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary m-2"
+                onclick="sendRequest('GET', {id: document.querySelector('#get_item_id').value});">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="p-3 col-md-6">
+        <div class="border border-light p-3">
+          <h3>POST</h3>
+          <!-- name -->
+          <label for="post_item_name">Enter new name:</label>
+          <input id="post_item_name" type="text" placeholder="Item Name" class="form-control"/>
+          <!-- qty -->
+          <label for="post_item_qty">Enter new qty:</label>
+          <input id="post_item_qty" type="number" placeholder="Item Qty" class="form-control"/>
+          <!-- send button -->
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary m-2"
+                onclick="sendRequest('POST',
+                {
+                  name: document.querySelector('#post_item_name').value,
+                  qty: document.querySelector('#post_item_qty').value
+                });">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="p-3 col-md-6">
+        <div class="border border-light p-3">
+          <h3>PUT</h3>
+          <!-- id -->
+          <label for="put_item_id">Update an item:</label>
+          <input id="put_item_id" type="number" placeholder="Item ID" class="form-control"/>
+          <!-- name -->
+          <label for="put_item_name">Enter new name:</label>
+          <input id="put_item_name" type="text" placeholder="Item Name" class="form-control"/>
+          <!-- qty -->
+          <label for="put_item_qty">Enter new qty:</label>
+          <input id="put_item_qty" type="number" placeholder="Item Qty" class="form-control"/>
+          <!-- send button -->
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary m-2"
+                onclick="sendRequest('PUT',
+                {
+                  id: document.querySelector('#put_item_id').value,
+                  name: document.querySelector('#put_item_name').value,
+                  qty: document.querySelector('#put_item_qty').value
+                });">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="p-3 col-md-6">
+        <div class="border border-light p-3">
+          <h3>DELETE</h3>
+          <!-- id -->
+          <label for="delete_item_id">Delete an item:</label>
+          <input id="delete_item_id" type="number" placeholder="Item ID" class="form-control"/>
+          <!-- send button -->
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary m-2"
+                onclick="sendRequest('DELETE', {id: document.querySelector('#delete_item_id').value});">Send</button>
+          </div>
+        </div>
+      </section>
+
     </article>
   </section>
 </body>
