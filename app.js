@@ -3,12 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const con = require("./config/database.js");
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// middleware for connecting to the DB and then passing the DB instance to the routes
+app.use(function(req, res, next) {
+  req.con = con
+  next()
+});
 
 app.use(logger('dev'));
 app.use(express.json());
