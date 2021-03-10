@@ -5,5 +5,5 @@ Software Engineer/Developer CRUD Exam
 DB_HOST, DB_USER, DB_PASS, DB_NAME
 
 # to run:
-* npm install
-* npm start
+* `npm install`
+* `npm start`
